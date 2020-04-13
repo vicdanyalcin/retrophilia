@@ -3,10 +3,23 @@ for (var i = 0; i < removeCartItemButtons.length; i++) {
   var button = removeCartItemButtons[i];
   button.addEventListener("click", removeCartItem);
 }
+var quantityInputs = document.getElementsByClassName("cart-quantity-input");
+for (var i = 0; i < quantityInputs.length; i++) {
+  var input = quantityInputs[i];
+  input.addEventListener("change", quantityChanged);
+}
+var addRoCartButtons = document.getElementsByClassName("btn-success");
 
 function removeCartItem(e) {
   var buttonClicked = e.target;
   buttonClicked.parentElement.parentElement.remove();
+  updateCartTotal();
+}
+function quantityChanged(e) {
+  var input = e.target;
+  if (isNaN(input.value) || input.value <= 0) {
+    input.value = 1;
+  }
   updateCartTotal();
 }
 
