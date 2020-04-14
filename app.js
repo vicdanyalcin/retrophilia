@@ -33,14 +33,21 @@ function addToCartClicked(e) {
   var price = shopItem.getElementsByClassName("item-price")[0].innerText;
   var imgSrc = shopItem.getElementsByClassName("card-img-top")[0].src;
 
-  console.log(title, price, imgSrc);
   addItemToCart(title, price, imgSrc);
+  updateCartTotal();
 }
 
 function addItemToCart(title, price, imgSrc) {
   var cartRow = document.createElement("div");
   cartRow.classList.add("cart-row");
-  var CartItems = document.getElementsByClassName("cart-items")[0];
+  var cartItems = document.getElementsByClassName("cart-items")[0];
+  var cartItemsNames = cartItems.getElementsByClassName("cart-item-title");
+  for (var i = 0; i < cartItemsNames.length; i++) {
+    if (cartItemsNames[i].innerText == title) {
+      alert("This item is already added to the cart");
+      return;
+    }
+  }
   var cartRowContents = `       
         <div class="cart-item cart-column">
                  <img src="${imgSrc}" alt="" class="cart-item-image" width="150" height="100">
@@ -53,7 +60,10 @@ function addItemToCart(title, price, imgSrc) {
             <button class="btn btn-danger">REMOVE</button>
         </div>`;
   cartRow.innerHTML = cartRowContents;
-  CartItems.append(cartRow);
+  cartItems.append(cartRow);
+  cartRow
+    .getElementsByClassName("btn-danger")[0]
+    .addEventListener("click", removeCartItem);
 }
 function updateCartTotal() {
   var cartItemContainer = document.getElementsByClassName("cart-items")[0];
